@@ -109,6 +109,7 @@ section {
 body {
   line-height: 1;
   font-family: "Noto Sans KR", sans-serif;
+  background-color: #f1f2f6;
 }
 ol,
 ul {
