@@ -1,0 +1,63 @@
+.background {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.popup-wrap {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f5f6fa;
+  box-shadow: 5px 10px 10px 1px rgba(220, 221, 225, 0.6);
+}
+
+.popup-head {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.popup-body {
+  padding: 0px 20px;
+  margin-bottom: 10px;
+}
+.submit_question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.submit_question > input,
+.submit_question > textarea {
+  width: 80%;
+}
+
+.popup-foot {
+  display: flex;
+}
+.popup-foot > button {
+  flex-basis: 50%;
+  border: none;
+  padding: 10px 0px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.popup-foot > button:hover {
+  box-shadow: inset 5px 10px 10px 1px rgba(220, 221, 225, 0.6);
+}
+
+.hide {
+  display: none;
+}
