@@ -1,6 +1,14 @@
 import { agoraStatesDiscussions } from "./data.js";
 
-console.log(agoraStatesDiscussions);
+// 이름,제목 유효성 체크
+const checkName = (name) => {
+  let nameTrim = name.trim();
+  return /^[A-Za-z가-힣][A-Za-z0-9가-힣]{3,}$/.test(nameTrim);
+};
+const checkTitle = (title) => {
+  let titleTrim = title.trim();
+  return titleTrim.length > 5;
+};
 
 //<i class="fa-solid fa-heart"></i>
 //<i class="fa-solid fa-face-sad-tear"></i>
@@ -26,7 +34,7 @@ const convertToDiscussion = (obj) => {
   const a = document.createElement("a");
   h2.classList.add("discussion__title");
   a.textContent = obj.title;
-  a.href = obj.url || "";
+  a.href = obj.url || "#";
   a.target = "_blank";
   h2.append(a);
 
@@ -66,28 +74,68 @@ const render = (element) => {
   return element;
 };
 
+// 단일 추가되는 질문을 element로 추가하는 함수
+const rederOneItem = (data) => {
+  ul.prepend(convertToDiscussion(data));
+};
+
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
 const ul = document.querySelector("ul.discussions__container");
 render(ul);
 
-// heart 버튼 클릭시 답변으로 연결
-const $heart = document.querySelectorAll(".fa-hear");
-
-//modal 기능 만들기
+//modal 기능 만들기 및 새로운 데이터 전송
 const $btnQuestion = document.querySelector(".modalBtn");
-const $btnSubmit = document.querySelector(".btn_submit");
-const $btnClose = document.querySelector(".btn_close");
+const $btnClose = document.querySelector(".fa-x");
 const $popupBackground = document.querySelector(".background");
 
-let title = "";
-let name = "";
-const newData = {};
+const AVATAR_URL = "https://avatars.githubusercontent.com/u/87750478?s=64&v=4";
+
+const open = () => {
+  $popupBackground.classList.remove("hide");
+  // 모달 기능 내에서 새로운 아이디 및, password 만들기
+  const $form = document.querySelector(".submit_question");
+  const $title = $form.querySelector(".title");
+  const $name = $form.querySelector(".name");
+  const $textarea = $form.querySelector("textarea");
+
+  $title.addEventListener("keyup", (event) => writeValue($title));
+  $name.addEventListener("keyup", (event) => writeValue($name));
+  $textarea.addEventListener("keyup", (event) => writeValue($textarea));
+
+  $form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log($name.value, $title.value);
+    if (checkName($name.value) && checkTitle($title.value)) {
+      console.log("go");
+      const newData = {};
+      newData.id = Date.now();
+      newData.createdAt = new Date();
+      newData.title = $title.value;
+      newData.author = $name.value;
+      newData.textarea = $textarea.value;
+      newData.avatarUrl = AVATAR_URL;
+      agoraStatesDiscussions.unshift(newData);
+      $title.value = "";
+      $name.value = "";
+      $textarea.value = "";
+      rederOneItem(newData);
+      close();
+    } else {
+      console.log("else");
+      alert(
+        "이름은 4글자 이상(한글, 영어, 숫자만 입력), 제목은 6글자 이상이어야 합니다."
+      );
+    }
+  });
+};
+
+//value 입력 클로져 함수 활용
+const writeValue = (tag) => {
+  tag.value = event.target.value;
+};
 
 const close = () => {
   $popupBackground.classList.add("hide");
-};
-const open = () => {
-  $popupBackground.classList.remove("hide");
 };
 
 $btnQuestion.addEventListener("click", open);

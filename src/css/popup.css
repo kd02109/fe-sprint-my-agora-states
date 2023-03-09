@@ -44,9 +44,11 @@
 
 .popup-foot {
   display: flex;
+  width: 100%;
+  justify-content: center;
 }
 .popup-foot > button {
-  flex-basis: 50%;
+  flex-basis: 40%;
   border: none;
   padding: 10px 0px;
   text-align: center;
@@ -60,4 +62,7 @@
 
 .hide {
   display: none;
+}
+.fa-x {
+  cursor: pointer;
 }
