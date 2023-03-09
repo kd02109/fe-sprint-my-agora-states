@@ -9,9 +9,7 @@ const checkTitle = (title) => {
   let titleTrim = title.trim();
   return titleTrim.length > 5;
 };
-
-//<i class="fa-solid fa-heart"></i>
-//<i class="fa-solid fa-face-sad-tear"></i>
+//<i class="fa-solid fa-angle-right"></i>
 
 // convertToDiscussion은 아고라 스테이츠 데이터를 DOM으로 바꿔줍니다.
 const convertToDiscussion = (obj) => {
@@ -66,14 +64,93 @@ const convertToDiscussion = (obj) => {
   return li;
 };
 
+//페이지네이션 구현
+const $buttons = document.querySelector(".buttons");
+const showContent = 6;
+const maxButton = 5;
+let numOfContent = agoraStatesDiscussions.length;
+let maxPage = Math.ceil(numOfContent / showContent);
+let page = 1;
+
+// 전 후 버튼 이벤트
+const goPrevPage = () => {
+  page -= maxButton;
+  renderPageButton(page);
+};
+
+const goNextPage = () => {
+  page += maxButton;
+  renderPageButton(page);
+};
+
+//전 후 버튼 구현
+const prev = document.createElement("button");
+const prevIcon = document.createElement("i");
+prevIcon.className = "fa-solid fa-angle-left";
+prev.classList.add("button", "prev");
+prev.appendChild(prevIcon);
+prev.addEventListener("click", goPrevPage);
+
+const next = document.createElement("button");
+const nextIcon = document.createElement("i");
+nextIcon.className = "fa-solid fa-angle-right";
+next.classList.add("button", "next");
+next.appendChild(nextIcon);
+next.addEventListener("click", goNextPage);
+
+// 페이지네이션을 위한 버튼 만들기
+const makeButton = (id) => {
+  const button = document.createElement("button");
+  button.classList.add("button");
+  button.dataset.num = id;
+  button.textContent = id;
+  button.addEventListener("click", (e) => {
+    Array.prototype.forEach.call($buttons.children, (button) => {
+      if (button.dataset.num) button.classList.remove("active");
+    });
+    e.target.classList.add("active");
+    renderContent(parseInt(e.target.dataset.num));
+  });
+  return button;
+};
+
+const renderButton = (page) => {
+  // 버튼 리스트 초기화
+  while ($buttons.hasChildNodes()) {
+    $buttons.removeChild($buttons.lastChild);
+  }
+  // 화면에 최대 5개의 페이지 버튼 생성
+  for (let id = page; id < page + maxButton && id <= maxPage; id++) {
+    $buttons.appendChild(makeButton(id));
+  }
+  $buttons.children[0].classList.add("active");
+
+  $buttons.prepend(prev);
+  $buttons.append(next);
+
+  // 이전, 다음 페이지 버튼이 필요한지 체크
+  if (page - maxButton < 1) $buttons.removeChild(prev);
+  if (page + maxButton > maxPage) $buttons.removeChild(next);
+};
+
 // agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링하는 함수입니다.
-const render = (element) => {
+/* const render = (element) => {
   for (let i = 0; i < agoraStatesDiscussions.length; i += 1) {
     element.append(convertToDiscussion(agoraStatesDiscussions[i]));
   }
   return element;
+}; */
+const renderContent = (page) => {
+  // 글의 최대 개수를 넘지 않는 선에서, 화면에 최대 10개의 글 생성
+  ul.innerHTML = "";
+  for (
+    let id = (page - 1) * showContent + 1;
+    id <= page * showContent && id <= numOfContent;
+    id++
+  ) {
+    ul.appendChild(convertToDiscussion(agoraStatesDiscussions[id]));
+  }
 };
-
 // 단일 추가되는 질문을 element로 추가하는 함수
 const rederOneItem = (data) => {
   ul.prepend(convertToDiscussion(data));
@@ -81,7 +158,12 @@ const rederOneItem = (data) => {
 
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
 const ul = document.querySelector("ul.discussions__container");
-render(ul);
+// render(ul);
+const renderPageButton = (page) => {
+  renderContent(page);
+  renderButton(page);
+};
+renderPageButton(page);
 
 //modal 기능 만들기 및 새로운 데이터 전송
 const $btnQuestion = document.querySelector(".modalBtn");
@@ -119,6 +201,7 @@ const open = () => {
       $name.value = "";
       $textarea.value = "";
       rederOneItem(newData);
+      agoraStatesDiscussions.unshift(newData);
       close();
     } else {
       console.log("else");
@@ -141,12 +224,4 @@ const close = () => {
 $btnQuestion.addEventListener("click", open);
 $btnClose.addEventListener("click", close);
 
-//페이지네이션 구현
-const $btnNextBox = document.querySelector(".button_box");
-const $contents = document.querySelector(".discussions__container");
-
-const numOfContent = agoraStatesDiscussions.length;
-const showContent = 10;
-const showButton = 5;
-const maxPage = Math.ceil(numOfContent / showContent);
-let page = 1;
+// 아고라 스테이츠 검색 기능 구현

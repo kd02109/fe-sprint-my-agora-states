@@ -2,4 +2,4 @@
 @import url("./reset.css");
 @import url("./pagenation.css");
 @import url("./popup.css");
-/* TODO: 보기 좋은 나만의 아고라 스테이츠를 위해서 CSS를 수정하세요. */
+@import url("./list.css"); /* TODO: 보기 좋은 나만의 아고라 스테이츠를 위해서 CSS를 수정하세요. */
