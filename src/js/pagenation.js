@@ -4,7 +4,7 @@ function PageNation(list, tag) {
   const showContent = 6;
   const maxButton = 5;
   let numOfContent = list.length;
-  let maxPage = Math.ceil(numOfContent / showContent);
+  let maxPage = Math.round(numOfContent / showContent);
   let page = 1;
 
   const convertToDiscussion = (obj) => {

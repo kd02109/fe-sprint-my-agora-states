@@ -52,16 +52,7 @@
   color: blakc;
   transition: 0.2s ease-in-out;
 }
-a:visited,
-a:link {
-  color: black;
-  text-decoration: none;
-}
 
-.discussion__title > a:hover {
-  color: #70a1ff;
-  text-decoration: underline;
-}
 .discussion__information {
   font-size: 10px;
   opacity: 0.7;

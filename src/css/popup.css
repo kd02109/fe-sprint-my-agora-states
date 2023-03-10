@@ -1,6 +1,7 @@
 .background {
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 0;
   bottom: 0;

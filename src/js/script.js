@@ -1,5 +1,6 @@
 import { agoraStatesDiscussions } from "./data.js";
 import PageNation from "./pagenation.js";
+import { AVATAR_URL } from "./avatarData.js";
 
 // 이름,제목 유효성 체크
 const checkName = (name) => {
@@ -76,7 +77,6 @@ const rederOneItem = (data) => {
 const $btnQuestion = document.querySelector(".modalBtn");
 const $btnClose = document.querySelector(".fa-x");
 const $popupBackground = document.querySelector(".background");
-const AVATAR_URL = "https://avatars.githubusercontent.com/u/87750478?s=64&v=4";
 
 const open = () => {
   $popupBackground.classList.remove("hide");
@@ -145,5 +145,6 @@ $searchForm.addEventListener("submit", (event) => {
       item.title.toUpperCase().includes(search) ||
       item.author.toUpperCase().includes(search)
   );
+  console.log(searchArr);
   PageNation(searchArr, ul);
 });

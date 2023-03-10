@@ -1,8 +1,14 @@
 .discussion__wrapper {
+  min-height: 300px;
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.not__search {
+  font-size: 30px;
+  font-weight: 600;
 }
 
 .buttons {
