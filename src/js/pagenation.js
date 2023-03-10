@@ -1,5 +1,6 @@
 function PageNation(list, tag) {
   const $buttons = document.querySelector(".buttons");
+  const $notSearch = document.querySelector(".not__search");
   const showContent = 6;
   const maxButton = 5;
   let numOfContent = list.length;
@@ -81,10 +82,8 @@ function PageNation(list, tag) {
     }
     // 화면에 최대 5개의 페이지 버튼 생성
     for (let id = page; id < page + maxButton && id <= maxPage; id++) {
-      console.log(makeButton);
       $buttons.appendChild(makeButton(id));
     }
-    console.log($buttons);
     $buttons.children[0].classList.add("active");
 
     $buttons.prepend(prev);
@@ -135,8 +134,20 @@ function PageNation(list, tag) {
   next.addEventListener("click", goNextPage);
 
   const renderPageButton = (page) => {
-    renderContent(page);
-    renderButton(page);
+    if (list.length < 1) {
+      $notSearch.classList.remove("hide");
+      $buttons.innerHTML = "";
+      tag.innerHTML = "";
+      return;
+    } else if (list.length < 7) {
+      $notSearch.classList.add("hide");
+      $buttons.innerHTML = "";
+      renderContent(page);
+    } else {
+      $notSearch.classList.add("hide");
+      renderContent(page);
+      renderButton(page);
+    }
   };
   return renderPageButton(page);
 }
