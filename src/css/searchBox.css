@@ -45,6 +45,10 @@
   font-weight: 600;
   font-size: 15px;
 }
+
+.search__box > input:focus {
+  border: 3px solid #70a1ff;
+}
 .search__box > button {
   position: absolute;
   border: none;
