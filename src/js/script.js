@@ -162,6 +162,7 @@ $searchForm.addEventListener("submit", (event) => {
       item.title.toUpperCase().includes(search) ||
       item.author.toUpperCase().includes(search)
   );
+  $search.value = "";
   PageNation(searchArr, ul);
 });
 
