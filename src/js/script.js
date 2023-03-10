@@ -148,3 +148,9 @@ $searchForm.addEventListener("submit", (event) => {
   console.log(searchArr);
   PageNation(searchArr, ul);
 });
+
+// refrash 기능 추가
+const $refresh = document.querySelector(".refresh");
+$refresh.addEventListener("click", (event) => {
+  PageNation(agoraStatesDiscussions, ul);
+});
