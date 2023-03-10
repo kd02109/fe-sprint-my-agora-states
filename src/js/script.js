@@ -15,7 +15,6 @@ const saveLocal = (list) => {
 };
 
 const list = getLocal();
-console.log(list);
 
 // 이름,제목 유효성 체크
 const checkName = (name) => {
