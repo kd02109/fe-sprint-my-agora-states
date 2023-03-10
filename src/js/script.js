@@ -19,11 +19,11 @@ const list = getLocal();
 // 이름,제목 유효성 체크
 const checkName = (name) => {
   let nameTrim = name.trim();
-  return /^[A-Za-z가-힣][A-Za-z0-9가-힣]{3,}$/.test(nameTrim);
+  return nameTrim.length > 2;
 };
 const checkTitle = (title) => {
   let titleTrim = title.trim();
-  return titleTrim.length > 5;
+  return titleTrim.length > 3;
 };
 
 // 단일 태그 추가
@@ -128,7 +128,7 @@ const open = () => {
     } else {
       console.log("else");
       alert(
-        "이름은 4글자 이상(한글, 영어, 숫자만 입력), 제목은 6글자 이상이어야 합니다."
+        "좌우 빈칸을 제외하고 이름3글자 이상 제목 4글자 이상이어야 합니다."
       );
     }
   });
