@@ -2,6 +2,21 @@ import { agoraStatesDiscussions } from "./data.js";
 import PageNation from "./pagenation.js";
 import { AVATAR_URL } from "./avatarData.js";
 
+// 로컬스토리지 기능 추가하기
+const getLocal = () => {
+  if (!localStorage.getItem("data")) {
+    localStorage.setItem("data", JSON.stringify(agoraStatesDiscussions));
+  }
+  return JSON.parse(localStorage.getItem("data"));
+};
+
+const saveLocal = (list) => {
+  localStorage.setItem("data", JSON.stringify(list));
+};
+
+const list = getLocal();
+console.log(list);
+
 // 이름,제목 유효성 체크
 const checkName = (name) => {
   let nameTrim = name.trim();
@@ -11,6 +26,7 @@ const checkTitle = (title) => {
   let titleTrim = title.trim();
   return titleTrim.length > 5;
 };
+
 // 단일 태그 추가
 const convertToDiscussion = (obj) => {
   const li = document.createElement("li"); // li 요소 생성
@@ -67,8 +83,9 @@ const convertToDiscussion = (obj) => {
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
 const ul = document.querySelector("ul.discussions__container");
 
-PageNation(agoraStatesDiscussions, ul);
+PageNation(list, ul);
 
+// form 작성 아이템 추가하기
 const rederOneItem = (data) => {
   ul.prepend(convertToDiscussion(data));
 };
@@ -96,18 +113,18 @@ const open = () => {
     if (checkName($name.value) && checkTitle($title.value)) {
       console.log("go");
       const newData = {};
-      newData.id = Date.now();
+      newData.id = Date.now().toString();
       newData.createdAt = new Date();
       newData.title = $title.value;
       newData.author = $name.value;
       newData.textarea = $textarea.value;
       newData.avatarUrl = AVATAR_URL;
-      agoraStatesDiscussions.unshift(newData);
       $title.value = "";
       $name.value = "";
       $textarea.value = "";
       rederOneItem(newData);
-      agoraStatesDiscussions.unshift(newData);
+      list.unshift(newData);
+      saveLocal(list);
       close();
     } else {
       console.log("else");
@@ -140,17 +157,16 @@ $searchForm.addEventListener("submit", (event) => {
   const search = trim.toUpperCase();
   if (trim === "") alert("검색어를 입력해주세요");
   event.preventDefault();
-  const searchArr = agoraStatesDiscussions.filter(
+  const searchArr = list.filter(
     (item) =>
       item.title.toUpperCase().includes(search) ||
       item.author.toUpperCase().includes(search)
   );
-  console.log(searchArr);
   PageNation(searchArr, ul);
 });
 
 // refrash 기능 추가
 const $refresh = document.querySelector(".refresh");
 $refresh.addEventListener("click", (event) => {
-  PageNation(agoraStatesDiscussions, ul);
+  PageNation(list, ul);
 });

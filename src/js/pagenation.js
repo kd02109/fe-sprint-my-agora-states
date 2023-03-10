@@ -98,7 +98,7 @@ function PageNation(list, tag) {
     // 글의 최대 개수를 넘지 않는 선에서, 화면에 최대 10개의 글 생성
     tag.innerHTML = "";
     for (
-      let id = (page - 1) * showContent + 1;
+      let id = (page - 1) * showContent + 0;
       id <= page * showContent && id <= numOfContent;
       id++
     ) {
